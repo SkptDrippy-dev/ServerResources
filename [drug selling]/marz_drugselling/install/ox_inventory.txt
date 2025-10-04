@@ -1,0 +1,10 @@
+['burner_phone'] = {
+    label = 'Burner Phone',
+    weight = 100,
+    stack = false,
+    close = true,
+    description = 'A disposable phone for drug dealing',
+    client = {
+        export = 'marz_drugselling.burner_phone'
+    }
+},

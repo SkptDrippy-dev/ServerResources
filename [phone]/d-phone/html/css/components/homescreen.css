@@ -1,0 +1,148 @@
+#homescreen {
+  /* background-color: black; */
+  position: absolute;
+  z-index: 16;
+  top: -100%;
+  width: 100%;
+  height: 100%;
+  padding-left: 1vh;
+  padding-right: 1vh;
+  padding-top: 10vh;
+
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  color: white;
+  overflow-y: hidden;
+}
+
+#homescreen-scroller {
+  margin-bottom: 3vh;
+  padding-bottom: 2vh;
+  overflow-y: auto;
+
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  /* background-color: aqua; */
+}
+
+#homescreen-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+#homescreen > .date {
+  color: white;
+  font-size: 1.75vh;
+  align-self: center;
+}
+
+#homescreen > .time {
+  color: white;
+  font-size: 6vh;
+  margin-bottom: 1vh;
+  align-self: center;
+}
+
+.uinotify-clear {
+  position: relative;
+  right: 0;
+  width: 100%;
+  display: none;
+  padding: 0.5vh;
+  background-color: var(--elementcoloropacity);
+  border-radius: 1vh;
+  text-align: center;
+  align-items: center;
+  color: var(--font-color);
+  font-size: 1.5vh;
+  box-shadow: var(--box-shadow) 0px 2px 8px 0px;
+  transition: 0.5s;
+  margin-bottom: 1vh;
+}
+
+.uinotify-clear:hover {
+  background-color: var(--elementcoloropacityh);
+  color: var(--font-color);
+  transition: 0.5s;
+}
+
+#handle {
+  position: absolute;
+  z-index: 999;
+  /* background-color: aqua; */
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50px; /* adjust the height as needed */
+}
+
+#homescreen-homebar {
+  display: block;
+  z-index: 17 !important;
+}
+
+#homescreen > .lockicon {
+  position: absolute;
+  color: white;
+  font-size: 2vh;
+  align-self: center;
+  top: 6vh;
+}
+
+.unlock-icon {
+  animation: pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    color: white;
+  }
+  50% {
+    transform: scale(1.2);
+    color: rgb(139, 216, 91);
+  }
+  100% {
+    transform: scale(1);
+
+    color: white;
+  }
+}
+
+#homescreen-fingerprint {
+  position: absolute;
+  color: white;
+  font-size: 5vh;
+  align-self: center;
+  bottom: 6vh;
+  z-index: 9;
+}
+
+#homescreen-fingerprint:hover {
+  color: rgb(197, 197, 197);
+  transition: 0.5s;
+}
+
+.fingerprint-unlock {
+  transform: scale(1.2);
+  color: rgb(94, 137, 67) !important;
+  transition: all 1s ease;
+}
+
+@keyframes fingerprintunlock {
+  0% {
+    transform: scale(1);
+    color: white;
+  }
+  50% {
+    transform: scale(1.1);
+    color: rgb(139, 216, 91);
+  }
+
+  100% {
+    transform: scale(1.2);
+    color: rgb(94, 137, 67);
+  }
+}

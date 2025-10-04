@@ -1,0 +1,21 @@
+['burner_phone'] = {
+    ['name'] = 'burner_phone',
+    ['label'] = 'Burner Phone',
+    ['weight'] = 100,
+    ['type'] = 'item',
+    ['image'] = 'burner_phone.png',
+    ['unique'] = false,
+    ['useable'] = true,
+    ['shouldClose'] = true,
+    ['combinable'] = nil,
+    ['description'] = 'A disposable phone for drug dealing'
+},
+
+And add this to your qb-core/server/player.lua in the item usage section, or create a separate useable item file:
+
+QBCore.Functions.CreateUseableItem('burner_phone', function(source, item)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return end
+    
+    TriggerEvent('marz_drugselling:server:useBurnerPhone', source)
+end)
