@@ -28,7 +28,7 @@ return {
 
 ----- DRINK
 
-     ['water'] = {
+     ['water_bottle'] = {
         label = 'Water',
         weight = 500,
         client = {
@@ -52,6 +52,15 @@ return {
             notification = 'You quenched your thirst with a sprunk'
         }
     },
+
+    ['cola'] = {
+    label = 'ecola',
+    weight = 1,
+    stack = true,
+    close = true,
+    description = 'ecola'
+},
+
 
 ----- PLAYER CONSUMEABLE
 
