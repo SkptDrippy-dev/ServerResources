@@ -6,19 +6,19 @@ Config = {}
 
 -- Localisation
 Config.Locale = "en"
-Config.NumberAndDateFormat = "en-US"
-Config.Currency = "USD"
+Config.NumberAndDateFormat = "en-UK"
+Config.Currency = "GBP"
 
 -- Framework & Integrations
-Config.Framework = "auto" -- or "QBCore", "Qbox", "ESX"
-Config.FuelSystem = "none" -- or "LegacyFuel", "ps-fuel", "lj-fuel", "ox_fuel", "cdn-fuel", "hyon_gas_station", "okokGasStation", "nd_fuel", "myFuel", "ti_fuel", "Renewed-Fuel", "rcore_fuel", "none"
-Config.VehicleKeys = "none" -- or "qb-vehiclekeys", "MrNewbVehicleKeys", "jaksam-vehicles-keys", "qs-vehiclekeys", "mk_vehiclekeys", "wasabi_carlock", "cd_garage", "okokGarage", "t1ger_keys", "Renewed", "tgiann-hotwire" "none"
-Config.Notifications = "auto" -- or "default", "okokNotify", "ox_lib", "ps-ui"
+Config.Framework = "Qbox" -- or "QBCore", "Qbox", "ESX"
+Config.FuelSystem = "ox_fuel" -- or "LegacyFuel", "ps-fuel", "lj-fuel", "ox_fuel", "cdn-fuel", "hyon_gas_station", "okokGasStation", "nd_fuel", "myFuel", "ti_fuel", "Renewed-Fuel", "rcore_fuel", "none"
+Config.VehicleKeys = "wasabi_carlock" -- or "qb-vehiclekeys", "MrNewbVehicleKeys", "jaksam-vehicles-keys", "qs-vehiclekeys", "mk_vehiclekeys", "wasabi_carlock", "cd_garage", "okokGarage", "t1ger_keys", "Renewed", "tgiann-hotwire" "none"
+Config.Notifications = "okokNotify" -- or "default", "okokNotify", "ox_lib", "ps-ui"
 Config.Banking = "auto" -- or "qb-banking", "qb-management", "esx_addonaccount", "Renewed-Banking", "okokBanking", "fd_banking"
 Config.Gangs = "auto" -- "qb-gangs", "rcore_gangs"
 
 -- Draw text UI prompts (key binding control IDs here: https://docs.fivem.net/docs/game-references/controls/)
-Config.DrawText = "auto" -- or "jg-textui", "qb-DrawText", "okokTextUI", "ox_lib", "ps-ui"
+Config.DrawText = "okokTextUI" -- or "jg-textui", "qb-DrawText", "okokTextUI", "ox_lib", "ps-ui"
 Config.OpenGarageKeyBind = 38
 Config.OpenGaragePrompt = "[E] Open Garage"
 Config.OpenImpoundKeyBind = 38
@@ -69,7 +69,7 @@ Config.DisableTransfersToUnregisteredGarages = false -- Potential hacking protec
 Config.AllowInfiniteVehicleSpawns = false -- Public & private garages
 Config.JobGaragesAllowInfiniteVehicleSpawns = false -- Job garages
 Config.GangGaragesAllowInfiniteVehicleSpawns = false -- Gang garages
-Config.GarageVehicleReturnCost = 2500 -- "towing" tax if not placed back in garage after server restart; or if destroyed or underwater while left out
+Config.GarageVehicleReturnCost = 1000 -- "towing" tax if not placed back in garage after server restart; or if destroyed or underwater while left out
 Config.GarageVehicleReturnCostSocietyFund = false -- Job name of society fund to pay return fees into (optional)
 
 -- Public Garages
@@ -80,186 +80,171 @@ Config.GarageEnableInteriors = true
 Config.GarageLocations = { -- IMPORTANT - Every garage name must be unique
   ["Legion Square"] = { -- If you change the name of this garage from Legion Square, you must change the default value of `garage_id` to the same name in the SQL table `players_vehicles`
     coords = vector3(215.09, -805.17, 30.81),
-    spawn = {vector4(216.84, -802.02, 30.78, 69.82), vector4(218.09, -799.42, 30.76, 66.17), vector4(219.29, -797.23, 30.75, 65.4), vector4(219.59, -794.44, 30.75, 69.35), vector4(220.63, -792.03, 30.75, 63.76), vector4(206.81, -798.35, 30.99, 248.53)}, --  you can add multiple spawn locations into a table
+    spawn = {vec4(212.41, -798.99, 29.88, 161.22),}, --  you can add multiple spawn locations into a table
     distance = 15,
     type = "car",
     hideBlip = false,
     blip = {
       id = 357,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["Islington South"] = {
-    coords = vector3(273.0, -343.85, 44.91),
-    spawn = vector4(270.75, -340.51, 44.92, 342.03),
+
+  ["Docks 1"] = { -- If you change the name of this garage from Legion Square, you must change the default value of `garage_id` to the same name in the SQL table `players_vehicles`
+    coords = vector3(1191.17, -3241.98, 5.03),
+    spawn = {vec4(1190.36, -3246.14, 5.03, 91.62),vec4(1190.75, -3242.67, 5.03, 94.96),vec4(1190.94, -3239.65, 5.03, 89.45)}, --  you can add multiple spawn locations into a table
     distance = 15,
     type = "car",
     hideBlip = false,
     blip = {
       id = 357,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["Grove Street"] = {
-    coords = vector3(14.66, -1728.52, 29.3),
-    spawn = vector4(23.93, -1722.9, 29.3, 310.58),
+
+   ["Docks 2"] = { -- If you change the name of this garage from Legion Square, you must change the default value of `garage_id` to the same name in the SQL table `players_vehicles`
+    coords = vec3(162.24, -3017.58, 4.95),
+    spawn = {vec4(167.66, -3018.64, 4.88, 282.08),vec4(168.0, -3025.95, 4.87, 272.74),vec4(165.83, -3011.92, 4.89, 267.6)}, --  you can add multiple spawn locations into a table
     distance = 15,
     type = "car",
     hideBlip = false,
     blip = {
       id = 357,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["Mirror Park"] = {
-    coords = vector3(1032.84, -765.1, 58.18),
-    spawn = vector4(1023.2, -764.27, 57.96, 319.66),
+
+    ["Docks 3"] = { -- If you change the name of this garage from Legion Square, you must change the default value of `garage_id` to the same name in the SQL table `players_vehicles`
+    coords = vec3(-308.91, -2714.4, 5.0),
+    spawn = {vec4(-308.91, -2714.4, 5.0, 227.2),vec4(-305.82, -2722.59, 5.0, 303.45),vec4(-304.21, -2709.89, 5.0, 228.48)}, --  you can add multiple spawn locations into a table
     distance = 15,
     type = "car",
     hideBlip = false,
     blip = {
       id = 357,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["Beach"] = {
-    coords = vector3(-1248.69, -1425.71, 4.32),
-    spawn = vector4(-1244.27, -1422.08, 4.32, 37.12),
+
+      ["Beach"] = { -- If you change the name of this garage from Legion Square, you must change the default value of `garage_id` to the same name in the SQL table `players_vehicles`
+    coords = vec3(-1183.86, -1501.98, 3.38),
+    spawn = {vec4(-1186.79, -1490.54, 3.38, 127.76),vec4(-1191.82, -1504.6, 3.37, 308.77),vec4(-1191.64, -1483.03, 3.38, 141.64)}, --  you can add multiple spawn locations into a table
     distance = 15,
     type = "car",
     hideBlip = false,
     blip = {
       id = 357,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["Great Ocean Highway"] = {
-    coords = vector3(-2961.58, 375.93, 15.02),
-    spawn = vector4(-2964.96, 372.07, 14.78, 86.07),
+
+   ["Airport"] = { -- If you change the name of this garage from Legion Square, you must change the default value of `garage_id` to the same name in the SQL table `players_vehicles`
+    coords = vec3(-982.0, -2700.17, 12.85),
+    spawn = {vec4(-989.42, -2706.91, 12.83, 327.91),vec4(-979.95, -2710.42, 12.84, 353.44),vec4(-970.41, -2694.44, 12.83, 153.93)}, --  you can add multiple spawn locations into a table
     distance = 15,
     type = "car",
     hideBlip = false,
     blip = {
       id = 357,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["Sandy South"] = {
-    coords = vector3(217.33, 2605.65, 46.04),
-    spawn = vector4(216.94, 2608.44, 46.33, 14.07),
+
+  ["Docks Heli Car"] = {
+    coords = vec3(502.31, -3371.51, 5.07),
+    spawn = vec4(502.04, -3370.93, 5.07, 21.51),
+    distance = 20,
+    type = "car",
+    hideBlip = false,
+    blip = {
+      id = 357,
+      color = 3,
+      scale = 0.7
+    },
+    
+    hideMarkers = true,
+    markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
+  },
+
+       ["LA SPADA"] = { -- If you change the name of this garage from Legion Square, you must change the default value of `garage_id` to the same name in the SQL table `players_vehicles`
+    coords = vec3(-1034.4, -1335.64, 4.44),
+    spawn = {vec4(-1034.4, -1335.64, 4.44, 80.38),vec4(-1033.89, -1332.01, 4.45, 81.64),vec4(-1045.27, -1326.08, 4.46, 254.3)}, --  you can add multiple spawn locations into a table
     distance = 15,
     type = "car",
     hideBlip = false,
     blip = {
       id = 357,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["Sandy North"] = {
-    coords = vector3(1878.44, 3760.1, 32.94),
-    spawn = vector4(1880.14, 3757.73, 32.93, 215.54),
+
+        ["Docks"] = { -- If you change the name of this garage from Legion Square, you must change the default value of `garage_id` to the same name in the SQL table `players_vehicles`
+    coords = vec3(-809.12, -1319.63, 4.0),
+    spawn = {vec4(-809.12, -1319.63, 4.0, 166.26),vec4(-808.11, -1313.05, 4.0, 345.27),vec4(-802.55, -1319.52, 4.0, 167.67)}, --  you can add multiple spawn locations into a table
     distance = 15,
     type = "car",
     hideBlip = false,
     blip = {
       id = 357,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["North Vinewood Blvd"] = {
-    coords = vector3(365.21, 295.65, 103.46),
-    spawn = vector4(364.84, 289.73, 103.42, 164.23),
-    distance = 15,
-    type = "car",
-    hideBlip = false,
-    blip = {
-      id = 357,
-      color = 0,
-      scale = 0.7
-    },
-    hideMarkers = true,
-    markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
-  },
-  ["Grapeseed"] = {
-    coords = vector3(1713.06, 4745.32, 41.96),
-    spawn = vector4(1710.64, 4746.94, 41.95, 90.11),
-    distance = 15,
-    type = "car",
-    hideBlip = false,
-    blip = {
-      id = 357,
-      color = 0,
-      scale = 0.7
-    },
-    hideMarkers = true,
-    markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
-  },
-  ["Paleto Bay"] = {
-    coords = vector3(107.32, 6611.77, 31.98),
-    spawn = vector4(110.84, 6607.82, 31.86, 265.28),
-    distance = 15,
-    type = "car",
-    hideBlip = false,
-    blip = {
-      id = 357,
-      color = 0,
-      scale = 0.7
-    },
-    hideMarkers = true,
-    markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
-  },
-  ["Boats"] = {
-    coords = vector3(-795.15, -1510.79, 1.6),
-    spawn = vector4(-798.66, -1507.73, -0.47, 102.23),
+  
+  ["Docks Boat"] = {
+    coords = vec3(-847.61, -1367.94, 0.61),
+    spawn = vec4(-844.72, -1362.46, -1.47, 101.05),vec4(-840.64, -1371.35, 0.22, 109.0),
     distance = 20,
     type = "sea",
     hideBlip = false,
     blip = {
       id = 356,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
   },
-  ["Hangar"] = {
-    coords = vector3(-1243.49, -3391.88, 13.94),
-    spawn = vector4(-1258.4, -3394.56, 13.94, 328.23),
+  ["Docks Heli"] = {
+    coords = vec3(478.54, -3370.03, 5.07),
+    spawn = vector4(-1258.4, -3394.56, 13.94, 351.1),
     distance = 20,
     type = "air",
     hideBlip = false,
     blip = {
       id = 359,
-      color = 0,
+      color = 3,
       scale = 0.7
     },
+    
     hideMarkers = true,
     markers = { id = 21, size = { x = 0.3, y = 0.3, z = 0.3 }, color = { r = 255, g = 255, b = 255, a = 120 }, bobUpAndDown = 0, faceCamera = 0, rotate = 1, drawOnEnts = 0 },
-  }
+  },
+   
+  
 }
 
 -- Private Garages

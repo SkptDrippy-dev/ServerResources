@@ -31,24 +31,8 @@ local settings = require 'resource.settings'
 ---@param data NotifyProps
 ---@diagnostic disable-next-line: duplicate-set-field
 function lib.notify(data)
-    local sound = settings.notification_audio and data.sound
-    data.sound = nil
-    data.position = data.position or settings.notification_position
-
-    SendNUIMessage({
-        action = 'notify',
-        data = data
-    })
-
-    if not sound then return end
-
-    if sound.bank then lib.requestAudioBank(sound.bank) end
-
-    local soundId = GetSoundId()
-    PlaySoundFrontend(soundId, sound.name, sound.set, true)
-    ReleaseSoundId(soundId)
-
-    if sound.bank then ReleaseNamedScriptAudioBank(sound.bank) end
+    if data.type ~= "success" or data.type ~= "info" or data.type ~= "warning" or data.type ~= "error" or data.type ~= "phonemessage" or data.type ~= "neutral" then data.type = "info" end
+    exports['okokNotify']:Alert(data.title or 'SERVER', data.description, 5000, data.type)
 end
 
 ---@class DefaultNotifyProps

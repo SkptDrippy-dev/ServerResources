@@ -56,77 +56,154 @@ end
 -- New code
 
 local function createDealershipZonesAndBlips()
-  for _, point in ipairs(points) do point:remove() end  -- Remove existing zones
-  for _, blip in ipairs(blips) do RemoveBlip(blip) end -- Remove existing blips 
+    for _, point in ipairs(points) do point:remove() end
+    for _, blip in ipairs(blips) do RemoveBlip(blip) end
 
-  local dealerships = lib.callback.await("jg-dealerships:server:get-locations-data", false)
+    local playerPed = PlayerPedId()
+    local dealerships = lib.callback.await("jg-dealerships:server:get-locations-data", false)
 
-  for _, dealer in ipairs(dealerships) do
-    if dealer and dealer.config then
-      if IsShowroomAccessAllowed(dealer.name) or (dealer.type == "owned" and dealer.managementAccess) then
-        -- Showroom location
-        createLocation(
-          dealer.config.openShowroom?.coords or dealer.config.openShowroom,
-          dealer.config.openShowroom?.size or 5,
-          not dealer.config.hideMarkers and dealer.config.markers or false,
-          function() Framework.Client.ShowTextUI(Config.OpenShowroomPrompt) end,
-          function() Framework.Client.HideTextUI() end,
-          function()
-            if IsControlJustPressed(0, Config.OpenShowroomKeyBind) then
-              TriggerEvent("jg-dealerships:client:open-showroom", dealer.name)
-            end
-          end
-        )
+    local activeZones = {}
 
-        -- Sell vehicle location (if enabled)
-        if dealer.config.enableSellVehicle then
-          createLocation(
-            dealer.config.sellVehicle?.coords or dealer.config.sellVehicle,
-            dealer.config.sellVehicle?.size or 5,
-            not dealer.config.hideMarkers and dealer.config.markers or false,
-            function() Framework.Client.ShowTextUI(Config.SellVehiclePrompt) end,
-            function() Framework.Client.HideTextUI() end,
-            function()
-              if IsControlJustPressed(0, Config.SellVehicleKeyBind) then
-                TriggerEvent("jg-dealerships:client:sell-vehicle", dealer.name)
-              end
-            end
-          )
+    local function createZone(dealer, zoneType, coords, radius, label, icon, event)
+        local zoneName = dealer.name .. "_" .. zoneType
+
+        if activeZones[zoneName] then return end -- already created
+
+        if Config.UseTarget and Config.TargetSystem == "ox_target" then
+            exports.ox_target:addSphereZone({
+                name = zoneName,
+                coords = coords,
+                radius = radius,
+                debug = true,
+                options = {
+                    {
+                        label = label,
+                        icon = icon,
+                        onSelect = function()
+                            TriggerEvent(event, dealer.name)
+                        end
+                    }
+                }
+            })
+        elseif Config.UseTarget and Config.TargetSystem == "qb-target" then
+            exports['qb-target']:AddCircleZone(zoneName, coords, radius, {
+                name = zoneName,
+                debugPoly = false,
+            }, {
+                options = {
+                    {
+                        type = "client",
+                        event = event,
+                        icon = icon,
+                        label = label,
+                    }
+                },
+                distance = 2.5,
+            })
+        else
+            createLocation(
+                coords,
+                radius,
+                not dealer.config.hideMarkers and dealer.config.markers or false,
+                function() Framework.Client.ShowTextUI(label) end,
+                function() Framework.Client.HideTextUI() end,
+                function()
+                    if IsControlJustPressed(0, Config.OpenShowroomKeyBind) then
+                        TriggerEvent(event, dealer.name)
+                    end
+                end
+            )
         end
 
-        -- Blip
-        if not dealer.config.hideBlip then
-          local blipName = Locale.dealership .. ": " .. dealer.label
-          local blip = createBlip(
-            blipName,
-            dealer.config.openShowroom?.coords or dealer.config.openShowroom,
-            dealer.config.blip.id,
-            dealer.config.blip.color,
-            dealer.config.blip.scale
-          )
-          
-          blips[#blips + 1] = blip
-        end
-      end
-    
-      -- Management location
-      if dealer.type == "owned" and dealer.managementAccess then
-        createLocation(
-          dealer.config.openManagement?.coords or dealer.config.openManagement,
-          dealer.config.openManagement?.size or 5,
-          not dealer.config.hideMarkers and dealer.config.markers or false,
-          function() Framework.Client.ShowTextUI(Config.OpenManagementPrompt) end,
-          function() Framework.Client.HideTextUI() end,
-          function()
-            if IsControlJustPressed(0, Config.OpenManagementKeyBind) then
-              TriggerEvent("jg-dealerships:client:open-management", dealer.name)
-            end
-          end
-        )
-      end
+        activeZones[zoneName] = true
     end
-  end
+
+    local function removeZone(zoneName)
+        if Config.UseTarget and Config.TargetSystem == "ox_target" then
+            exports.ox_target:removeZone(zoneName)
+        elseif Config.UseTarget and Config.TargetSystem == "qb-target" then
+            exports['qb-target']:RemoveZone(zoneName)
+        end
+        activeZones[zoneName] = nil
+    end
+
+    -- Blip creation + distance-based zone loop
+    CreateThread(function()
+        while true do
+            local pedCoords = GetEntityCoords(PlayerPedId())
+
+            for _, dealer in ipairs(dealerships) do
+                if dealer and dealer.config then
+                    if IsShowroomAccessAllowed(dealer.name) or (dealer.type == "owned" and dealer.managementAccess) then
+                        -- Showroom
+                        local showroomData = dealer.config.openShowroom
+                        local showroomCoords = showroomData?.coords or showroomData
+                        local showroomRadius = type(showroomData) == "table" and showroomData.size or 5
+                        local showroomZoneName = dealer.name .. "_showroom"
+
+                        if #(pedCoords - showroomCoords) <= showroomRadius + 5.0 then
+                            createZone(dealer, "showroom", showroomCoords, showroomRadius, Config.OpenShowroomPrompt, "fas fa-store", "jg-dealerships:client:open-showroom")
+                        else
+                            if activeZones[showroomZoneName] then
+                                removeZone(showroomZoneName)
+                            end
+                        end
+
+                        -- Sell
+                        if dealer.config.enableSellVehicle then
+                            local sellData = dealer.config.sellVehicle
+                            local sellCoords = sellData?.coords or sellData
+                            local sellRadius = type(sellData) == "table" and sellData.size or 5
+                            local sellZoneName = dealer.name .. "_sell"
+
+                            if #(pedCoords - sellCoords) <= sellRadius + 5.0 then
+                                createZone(dealer, "sell", sellCoords, sellRadius, Config.SellVehiclePrompt, "fas fa-car", "jg-dealerships:client:sell-vehicle")
+                            else
+                                if activeZones[sellZoneName] then
+                                    removeZone(sellZoneName)
+                                end
+                            end
+                        end
+
+                        -- Blip
+                        if not dealer.config.hideBlip and not dealer._blipCreated then
+                            local blipName = Locale.dealership .. ": " .. dealer.label
+                            local blip = createBlip(
+                                blipName,
+                                showroomCoords,
+                                dealer.config.blip.id,
+                                dealer.config.blip.color,
+                                dealer.config.blip.scale
+                            )
+                            blips[#blips + 1] = blip
+                            dealer._blipCreated = true
+                        end
+                    end
+
+                    -- Management
+                    if dealer.type == "owned" and dealer.managementAccess then
+                        local mgmtData = dealer.config.openManagement
+                        local mgmtCoords = mgmtData?.coords or mgmtData
+                        local mgmtRadius = type(mgmtData) == "table" and mgmtData.size or 5
+                        local mgmtZoneName = dealer.name .. "_management"
+
+                        if #(pedCoords - mgmtCoords) <= mgmtRadius + 5.0 then
+                            createZone(dealer, "management", mgmtCoords, mgmtRadius, Config.OpenManagementPrompt, "fas fa-briefcase", "jg-dealerships:client:open-management")
+                        else
+                            if activeZones[mgmtZoneName] then
+                                removeZone(mgmtZoneName)
+                            end
+                        end
+                    end
+                end
+            end
+
+            Wait(1500) -- Check every 1.5 seconds
+        end
+    end)
 end
+
+
 
 RegisterNetEvent("jg-dealerships:client:update-blips-text-uis", function()
   Wait(1000)

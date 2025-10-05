@@ -2,9 +2,9 @@ Config = {}
 
 Config.Kinds = {
 	lightblue = {
-        backgroundColor = "rgba(240, 240, 240, 0.85)", --  Use any CSS color value (hexadecimal, RGB, HSL, etc)
-        textColor = "#234799",
-		highlightColor = "#234799",
+        backgroundColor = "rgba(0, 0, 0, 1)", --  Use any CSS color value (hexadecimal, RGB, HSL, etc)
+        textColor = "#ffffffff",
+		highlightColor = "#6f00ffff",
         icon = "fa-solid fa-circle-info" -- Use any Font Awesome icon name (https://fontawesome.com/icons)
 	},
     darkblue = {

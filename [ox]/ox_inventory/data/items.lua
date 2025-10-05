@@ -89,7 +89,7 @@ return {
         label = 'Money',
     },
 
-    ['black_money'] = {
+    ['black_moeny'] = {
         label = 'Dirty Money',
     },
 
@@ -98,6 +98,11 @@ return {
 
 
 ----- PLAYER ITEMS
+
+     ['phone'] = {
+    label = 'phone',
+    weight = 1,
+    },   
 
       ['radio'] = {
         label = 'Radio',
@@ -384,6 +389,12 @@ return {
     stack = true,
 },
 
+['meth_packaged'] = {
+    label = 'meth packaged',
+    weight = 1,
+    stack = true,
+},
+
 ['meth_bag'] = {
     label = 'Meth bag',
     weight = 50,
@@ -406,6 +417,14 @@ return {
     label = 'Meth table',
     weight = 2250,
     stack = false
+},
+
+['chemicals'] = {
+    label = 'chemicals',
+    weight = 1,
+    stack = true,
+    close = true,
+    description = 'chemicals'
 },
 
 ----- COKE
@@ -443,6 +462,12 @@ return {
 
 ['coke_brick'] = {
     label = 'Cocaine brick',
+    weight = 200,
+    stack = true,
+},
+
+['cocaine_packaged'] = {
+    label = 'coke packaged',
     weight = 200,
     stack = true,
 },

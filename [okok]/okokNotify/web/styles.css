@@ -9,9 +9,9 @@ html {
 }
 
 #container {
-	position: fixed;
-	top: 1.5rem;
-	width: 18rem;
+    position: fixed;
+    top: 33rem;
+    width: 18rem;
 }
 
 .notification {
